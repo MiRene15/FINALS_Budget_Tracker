@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using FINALS_Budget_Tracker.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FINALS_Budget_Tracker.Controllers
 {
@@ -16,6 +17,12 @@ namespace FINALS_Budget_Tracker.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        [Authorize]
+        public IActionResult Dashboard()
+        {
+            return RedirectToAction("Dashboard", "Reports");
         }
 
         public IActionResult Privacy()
