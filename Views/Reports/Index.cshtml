@@ -1,0 +1,155 @@
+@model FINALS_Budget_Tracker.Services.Interfaces.MonthlyReport
+
+@{
+    ViewData["Title"] = "Monthly Report";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h2>Monthly Report</h2>
+        <p class="text-muted">Financial summary for @Model.Month/@Model.Year</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body text-center">
+                <h5 class="card-title">Total Income</h5>
+                <h2>$@Model.TotalIncome.ToString("N2")</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-danger text-white">
+            <div class="card-body text-center">
+                <h5 class="card-title">Total Expenses</h5>
+                <h2>$@Model.TotalExpenses.ToString("N2")</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card @(Model.NetIncome >= 0 ? "bg-primary" : "bg-warning") text-white">
+            <div class="card-body text-center">
+                <h5 class="card-title">Net Income</h5>
+                <h2>$@Model.NetIncome.ToString("N2")</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Expense Categories</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.CategorySummaries.Any())
+                {
+                    @foreach (var category in Model.CategorySummaries)
+                    {
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-2" style="width: 20px; height: 20px; background-color: @category.CategoryColor; border-radius: 3px;"></div>
+                                    <span>@category.CategoryName</span>
+                                </div>
+                                <span class="fw-bold">$@category.TotalAmount.ToString("N2")</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar" role="progressbar" style="width: @category.Percentage%; background-color: @category.CategoryColor;"></div>
+                            </div>
+                            <small class="text-muted">@category.Percentage.ToString("F1")% of total expenses</small>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">No expense data available for this month.</p>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Top Expenses</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.TopExpenses.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var expense in Model.TopExpenses)
+                                {
+                                    <tr>
+                                        <td>@expense.Date.ToString("MMM dd")</td>
+                                        <td>@expense.Description</td>
+                                        <td>
+                                            <span class="badge" style="background-color: @expense.Category.Color">
+                                                @expense.Category.Name
+                                            </span>
+                                        </td>
+                                        <td class="text-danger">$@expense.Amount.ToString("N2")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No expense data available.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Generate Report for Different Month</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="MonthlyReport" method="post" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="year" class="form-label">Year</label>
+                        <select name="year" id="year" class="form-control">
+                            @for (int year = DateTime.Now.Year - 2; year <= DateTime.Now.Year + 1; year++)
+                            {
+                                var isSelected = year == Model.Year ? "selected" : "";
+                                <option value="@year" selected="@isSelected">@year</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="month" class="form-label">Month</label>
+                        <select name="month" id="month" class="form-control">
+                            @for (int month = 1; month <= 12; month++)
+                            {
+                                var isSelected = month == Model.Month ? "selected" : "";
+                                <option value="@month" selected="@isSelected">@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month)</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary">Generate Report</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

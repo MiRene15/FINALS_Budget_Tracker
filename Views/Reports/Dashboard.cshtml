@@ -1,0 +1,157 @@
+@model FINALS_Budget_Tracker.Services.Interfaces.MonthlyReport
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h2>Budget Dashboard</h2>
+        <p class="text-muted">Overview of your financial activity for @Model.Month/@Model.Year</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Income</h5>
+                <h3>$@Model.TotalIncome.ToString("N2")</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Expenses</h5>
+                <h3>$@Model.TotalExpenses.ToString("N2")</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card @(Model.NetIncome >= 0 ? "bg-primary" : "bg-warning") text-white">
+            <div class="card-body">
+                <h5 class="card-title">Net Income</h5>
+                <h3>$@Model.NetIncome.ToString("N2")</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title">Avg Monthly Expense</h5>
+                <h3>$@ViewBag.AverageExpense.ToString("N2")</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5>Category Breakdown</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.CategorySummaries.Any())
+                {
+                    @foreach (var category in Model.CategorySummaries)
+                    {
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-2" style="width: 20px; height: 20px; background-color: @category.CategoryColor; border-radius: 3px;"></div>
+                                    <span>@category.CategoryName</span>
+                                </div>
+                                <span class="fw-bold">$@category.TotalAmount.ToString("N2") (@category.Percentage.ToString("F1")%)</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar" role="progressbar" style="width: @category.Percentage%; background-color: @category.CategoryColor;"></div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">No expense data available for this month.</p>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Recent Transactions</h5>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.RecentTransactions != null)
+                {
+                    @foreach (var transaction in ViewBag.RecentTransactions)
+                    {
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <small class="text-muted">@transaction.Date.ToString("MMM dd")</small>
+                                <div>@transaction.Description</div>
+                            </div>
+                            <span class="@(transaction.Type == FINALS_Budget_Tracker.Infrastructure.Entities.TransactionType.Income ? "text-success" : "text-danger")">
+                                @(transaction.Type == FINALS_Budget_Tracker.Infrastructure.Entities.TransactionType.Income ? "+" : "-")$@transaction.Amount.ToString("N2")
+                            </span>
+                        </div>
+                        <hr class="my-2">
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">No recent transactions.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Top Expenses</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.TopExpenses.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var expense in Model.TopExpenses.Take(5))
+                                {
+                                    <tr>
+                                        <td>@expense.Date.ToString("MMM dd")</td>
+                                        <td>@expense.Description</td>
+                                        <td>
+                                            <span class="badge" style="background-color: @expense.Category.Color">
+                                                @expense.Category.Name
+                                            </span>
+                                        </td>
+                                        <td class="text-danger">$@expense.Amount.ToString("N2")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No expense data available.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
