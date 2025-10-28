@@ -4,61 +4,66 @@
     ViewData["Title"] = "Register";
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h2 class="text-center">Create Account</h2>
-            </div>
-            <div class="card-body">
-                <form asp-action="Register" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <div class="display-4 mb-3">✨</div>
+                        <h2 class="fw-bold">Create Account</h2>
+                        <p class="text-muted">Join us and start tracking your finances</p>
+                    </div>
                     
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label asp-for="FirstName" class="form-label"></label>
-                                <input asp-for="FirstName" class="form-control" />
-                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                    <form asp-action="Register" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="FirstName" class="form-label fw-medium">First Name</label>
+                                    <input asp-for="FirstName" class="form-control form-control-lg" placeholder="Enter first name" />
+                                    <span asp-validation-for="FirstName" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="LastName" class="form-label fw-medium">Last Name</label>
+                                    <input asp-for="LastName" class="form-control form-control-lg" placeholder="Enter last name" />
+                                    <span asp-validation-for="LastName" class="text-danger small"></span>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label asp-for="LastName" class="form-label"></label>
-                                <input asp-for="LastName" class="form-control" />
-                                <span asp-validation-for="LastName" class="text-danger"></span>
+                        
+                        <div class="form-group mb-3">
+                            <label asp-for="Email" class="form-label fw-medium">Email Address</label>
+                            <input asp-for="Email" class="form-control form-control-lg" placeholder="Enter your email" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label asp-for="Password" class="form-label fw-medium">Password</label>
+                            <input asp-for="Password" class="form-control form-control-lg" placeholder="Create a strong password" />
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                            <div class="form-text">
+                                <small class="text-muted">Password must contain at least 2 uppercase letters, 3 numbers, and 3 symbols.</small>
                             </div>
                         </div>
-                    </div>
+                        
+                        <div class="form-group mb-4">
+                            <label asp-for="ConfirmPassword" class="form-label fw-medium">Confirm Password</label>
+                            <input asp-for="ConfirmPassword" class="form-control form-control-lg" placeholder="Confirm your password" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Create Account</button>
+                        </div>
+                    </form>
                     
-                    <div class="form-group mb-3">
-                        <label asp-for="Email" class="form-label"></label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                    <div class="text-center mt-4">
+                        <p class="text-muted">Already have an account? <a asp-action="Login" class="text-primary fw-medium text-decoration-none">Sign in here</a></p>
                     </div>
-                    
-                    <div class="form-group mb-3">
-                        <label asp-for="Password" class="form-label"></label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                        <small class="form-text text-muted">
-                            Password must contain at least 2 uppercase letters, 3 numbers, and 3 symbols.
-                        </small>
-                    </div>
-                    
-                    <div class="form-group mb-3">
-                        <label asp-for="ConfirmPassword" class="form-label"></label>
-                        <input asp-for="ConfirmPassword" class="form-control" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                    </div>
-                    
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary w-100">Register</button>
-                    </div>
-                </form>
-                
-                <div class="text-center mt-3">
-                    <p>Already have an account? <a asp-action="Login">Login here</a></p>
                 </div>
             </div>
         </div>

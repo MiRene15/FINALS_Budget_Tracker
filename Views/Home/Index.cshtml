@@ -2,48 +2,74 @@
     ViewData["Title"] = "Budget Tracker";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to Budget Tracker</h1>
-    <p class="lead">Track your expenses, manage budgets, and generate detailed reports</p>
-    
-    @if (User.Identity?.IsAuthenticated == true)
-    {
-        <div class="mt-4">
-            <a asp-controller="Reports" asp-action="Dashboard" class="btn btn-primary btn-lg">Go to Dashboard</a>
-        </div>
-    }
-    else
-    {
-        <div class="mt-4">
-            <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-lg me-3">Login</a>
-            <a asp-controller="Account" asp-action="Register" class="btn btn-outline-primary btn-lg">Register</a>
-        </div>
-    }
-    
-    <div class="row mt-5">
+<div class="hero">
+    <div class="container">
+        <h1>Take Control of Your Finances</h1>
+        <p class="lead">Track expenses, manage budgets, and gain insights into your spending habits with our intuitive budget tracker.</p>
+        
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <div class="mt-4">
+                <a asp-controller="Reports" asp-action="Dashboard" class="btn btn-light btn-lg px-4">
+                    📊 Go to Dashboard
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="mt-4">
+                <a asp-controller="Account" asp-action="Login" class="btn btn-light btn-lg px-4 me-3">Login</a>
+                <a asp-controller="Account" asp-action="Register" class="btn btn-outline-light btn-lg px-4">Get Started</a>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-4">
         <div class="col-md-4">
-            <div class="card">
+            <div class="card h-100 text-center">
                 <div class="card-body">
+                    <div class="mb-3">
+                        <div class="display-4">💳</div>
+                    </div>
                     <h5 class="card-title">Track Expenses</h5>
-                    <p class="card-text">Categorize and track all your expenses with detailed descriptions and amounts.</p>
+                    <p class="card-text text-muted">Categorize and track all your expenses with detailed descriptions and amounts. Get insights into where your money goes.</p>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card h-100 text-center">
                 <div class="card-body">
+                    <div class="mb-3">
+                        <div class="display-4">📈</div>
+                    </div>
                     <h5 class="card-title">Manage Budgets</h5>
-                    <p class="card-text">Set monthly budgets for different categories and track your spending progress.</p>
+                    <p class="card-text text-muted">Set monthly budgets for different categories and track your spending progress. Stay on top of your financial goals.</p>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card h-100 text-center">
                 <div class="card-body">
+                    <div class="mb-3">
+                        <div class="display-4">📊</div>
+                    </div>
                     <h5 class="card-title">Generate Reports</h5>
-                    <p class="card-text">View detailed monthly reports and analyze your spending patterns.</p>
+                    <p class="card-text text-muted">View detailed monthly reports and analyze your spending patterns. Make informed financial decisions.</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@if (!User.Identity?.IsAuthenticated == true)
+{
+    <div class="bg-light py-5">
+        <div class="container text-center">
+            <h3 class="mb-3">Ready to get started?</h3>
+            <p class="text-muted mb-4">Join thousands of users who are already taking control of their finances.</p>
+            <a asp-controller="Account" asp-action="Register" class="btn btn-primary btn-lg">Create Free Account</a>
+        </div>
+    </div>
+}

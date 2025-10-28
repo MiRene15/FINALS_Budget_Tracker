@@ -11,36 +11,56 @@
     </div>
 </div>
 
-<div class="row mb-4">
-    <div class="col-md-3">
-        <div class="card bg-success text-white">
-            <div class="card-body">
-                <h5 class="card-title">Total Income</h5>
-                <h3>$@Model.TotalIncome.ToString("N2")</h3>
+<div class="row mb-5">
+    <div class="col-md-3 mb-4">
+        <div class="stat-card success">
+            <div class="d-flex align-items-center">
+                <div class="me-3">
+                    <div class="display-4">💰</div>
+                </div>
+                <div>
+                    <p class="stat-value text-success">$@Model.TotalIncome.ToString("N2")</p>
+                    <p class="stat-label">Total Income</p>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card bg-danger text-white">
-            <div class="card-body">
-                <h5 class="card-title">Total Expenses</h5>
-                <h3>$@Model.TotalExpenses.ToString("N2")</h3>
+    <div class="col-md-3 mb-4">
+        <div class="stat-card danger">
+            <div class="d-flex align-items-center">
+                <div class="me-3">
+                    <div class="display-4">💸</div>
+                </div>
+                <div>
+                    <p class="stat-value text-danger">$@Model.TotalExpenses.ToString("N2")</p>
+                    <p class="stat-label">Total Expenses</p>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card @(Model.NetIncome >= 0 ? "bg-primary" : "bg-warning") text-white">
-            <div class="card-body">
-                <h5 class="card-title">Net Income</h5>
-                <h3>$@Model.NetIncome.ToString("N2")</h3>
+    <div class="col-md-3 mb-4">
+        <div class="stat-card @(Model.NetIncome >= 0 ? "" : "warning")">
+            <div class="d-flex align-items-center">
+                <div class="me-3">
+                    <div class="display-4">📊</div>
+                </div>
+                <div>
+                    <p class="stat-value @(Model.NetIncome >= 0 ? "text-success" : "text-warning")">$@Model.NetIncome.ToString("N2")</p>
+                    <p class="stat-label">Net Income</p>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card bg-info text-white">
-            <div class="card-body">
-                <h5 class="card-title">Avg Monthly Expense</h5>
-                <h3>$@ViewBag.AverageExpense.ToString("N2")</h3>
+    <div class="col-md-3 mb-4">
+        <div class="stat-card">
+            <div class="d-flex align-items-center">
+                <div class="me-3">
+                    <div class="display-4">📈</div>
+                </div>
+                <div>
+                    <p class="stat-value text-primary">$@ViewBag.AverageExpense.ToString("N2")</p>
+                    <p class="stat-label">Avg Monthly Expense</p>
+                </div>
             </div>
         </div>
     </div>

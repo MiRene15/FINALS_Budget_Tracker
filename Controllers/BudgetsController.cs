@@ -54,7 +54,12 @@ namespace FINALS_Budget_Tracker.Controllers
 
         public async Task<IActionResult> Create()
         {
-            ViewBag.Categories = await _categoryService.GetAllCategoriesAsync();
+            var categories = await _categoryService.GetAllCategoriesAsync();
+            ViewBag.Categories = categories.Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            }).ToList();
             return View();
         }
 
@@ -62,15 +67,34 @@ namespace FINALS_Budget_Tracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Budget budget)
         {
-            if (ModelState.IsValid)
+            // Remove server-populated fields from validation
+            ModelState.Remove("UserId");
+            ModelState.Remove("User");
+            ModelState.Remove("Category");
+
+            if (!ModelState.IsValid)
             {
-                budget.UserId = _userManager.GetUserId(User)!;
-                await _budgetService.CreateBudgetAsync(budget);
-                return RedirectToAction(nameof(Index));
+                // Log validation errors
+                foreach (var error in ModelState)
+                {
+                    foreach (var errorMessage in error.Value.Errors)
+                    {
+                        // You can log this or return to debug
+                    }
+                }
+
+                var categories = await _categoryService.GetAllCategoriesAsync();
+                ViewBag.Categories = categories.Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                }).ToList();
+                return View(budget);
             }
 
-            ViewBag.Categories = await _categoryService.GetAllCategoriesAsync();
-            return View(budget);
+            budget.UserId = _userManager.GetUserId(User)!;
+            await _budgetService.CreateBudgetAsync(budget);
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -87,7 +111,12 @@ namespace FINALS_Budget_Tracker.Controllers
                 return Forbid();
             }
 
-            ViewBag.Categories = await _categoryService.GetAllCategoriesAsync();
+            var categories = await _categoryService.GetAllCategoriesAsync();
+            ViewBag.Categories = categories.Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            }).ToList();
             return View(budget);
         }
 
@@ -109,7 +138,12 @@ namespace FINALS_Budget_Tracker.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.Categories = await _categoryService.GetAllCategoriesAsync();
+            var categories = await _categoryService.GetAllCategoriesAsync();
+            ViewBag.Categories = categories.Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            }).ToList();
             return View(budget);
         }
 

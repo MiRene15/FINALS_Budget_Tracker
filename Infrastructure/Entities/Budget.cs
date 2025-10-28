@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace FINALS_Budget_Tracker.Infrastructure.Entities
 {
@@ -32,11 +34,13 @@ namespace FINALS_Budget_Tracker.Infrastructure.Entities
         [Required]
         public int CategoryId { get; set; }
 
-        [Required]
+        [BindNever]
         public string UserId { get; set; } = string.Empty;
 
         // Navigation properties
+        [ValidateNever]
         public virtual Category Category { get; set; } = null!;
+        [ValidateNever]
         public virtual ApplicationUser User { get; set; } = null!;
     }
 }

@@ -1,7 +1,9 @@
 @model FINALS_Budget_Tracker.Infrastructure.Entities.Transaction
+@using Microsoft.AspNetCore.Mvc.Rendering
 
 @{
     ViewData["Title"] = "Create Transaction";
+    var categories = ViewBag.Categories as IEnumerable<SelectListItem> ?? new List<SelectListItem>();
 }
 
 <div class="row justify-content-center">
@@ -12,7 +14,7 @@
             </div>
             <div class="card-body">
                 <form asp-action="Create" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div asp-validation-summary="All" class="alert alert-danger"></div>
                     
                     <div class="row">
                         <div class="col-md-6">
@@ -45,7 +47,7 @@
                         <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label asp-for="Date" class="form-label"></label>
-                                <input asp-for="Date" class="form-control" type="date" />
+                                <input asp-for="Date" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
                                 <span asp-validation-for="Date" class="text-danger"></span>
                             </div>
                         </div>
@@ -55,7 +57,7 @@
                         <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label asp-for="CategoryId" class="form-label">Category</label>
-                                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
+                                <select asp-for="CategoryId" class="form-control" asp-items="categories">
                                     <option value="">Select a category</option>
                                 </select>
                                 <span asp-validation-for="CategoryId" class="text-danger"></span>

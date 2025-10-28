@@ -1,0 +1,29 @@
+@model FINALS_Budget_Tracker.Infrastructure.Entities.Budget
+
+@{
+    ViewData["Title"] = "Delete Budget";
+}
+
+<h2 class="mb-3">Delete Budget</h2>
+<div class="alert alert-warning">Are you sure you want to delete this budget?</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Name</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+            <dt class="col-sm-3">Category</dt>
+            <dd class="col-sm-9">@Model.Category?.Name</dd>
+            <dt class="col-sm-3">Amount</dt>
+            <dd class="col-sm-9">$@Model.Amount.ToString("N2")</dd>
+        </dl>
+    </div>
+    </div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+
