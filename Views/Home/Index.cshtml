@@ -1,8 +1,49 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Budget Tracker";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to Budget Tracker</h1>
+    <p class="lead">Track your expenses, manage budgets, and generate detailed reports</p>
+    
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <div class="mt-4">
+            <a asp-controller="Reports" asp-action="Dashboard" class="btn btn-primary btn-lg">Go to Dashboard</a>
+        </div>
+    }
+    else
+    {
+        <div class="mt-4">
+            <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-lg me-3">Login</a>
+            <a asp-controller="Account" asp-action="Register" class="btn btn-outline-primary btn-lg">Register</a>
+        </div>
+    }
+    
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Track Expenses</h5>
+                    <p class="card-text">Categorize and track all your expenses with detailed descriptions and amounts.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Budgets</h5>
+                    <p class="card-text">Set monthly budgets for different categories and track your spending progress.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Generate Reports</h5>
+                    <p class="card-text">View detailed monthly reports and analyze your spending patterns.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
